@@ -20,3 +20,12 @@ export function reducestate(){
         type: reducenum
     }
 }
+// redux异步操作
+export function removeAsync(){
+    //可以返回一函数
+    return dispatch => {
+        setTimeout(()=>{
+            dispatch(reducestate())
+        },2000)
+    }
+}
