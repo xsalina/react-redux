@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//Provider 组件 负责数据处理 （容器）
+import {Provider} from "react-redux";
 import {createStore,applyMiddleware,compose} from 'redux';
 import thunk from "redux-thunk";
-import {addstate,reducestate,reducer,removeAsync} from './redux/index.js'
+import {reducer} from './redux/index.js'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-
+//调试工具
 const devToolsExtension = window.devToolsExtension ? window.devToolsExtension():()=> {}
 const store = createStore(
     reducer,
@@ -16,18 +18,16 @@ const store = createStore(
         devToolsExtension
     )
 )
-render()
-function render(){
+
     ReactDOM.render(
-        <App 
-            store={store}
-            addnum = {addstate}
-            reducenum = {reducestate}
-            rmasync={removeAsync}
-        />, 
-    document.getElementById('root'));
-}
-store.subscribe(render);
+        <Provider store={store}>
+            <App/>
+        </Provider>,
+
+    document.getElementById('root')
+);
+
+
 
 
 

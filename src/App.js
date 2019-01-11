@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {removeAsync} from "./redux";
+import {connect} from "react-redux";
+import {addstate,reducestate,removeAsync} from './redux/index.js'
 class App extends Component {
+
   render() {
-    const {store,addnum,reducenum,rmasync} = this.props;
+
     return (
     <div className="todoapp">
       <div>
@@ -12,19 +14,19 @@ class App extends Component {
           type="button" 
           defaultValue="增加数量" 
           onClick={()=>{
-            store.dispatch(addnum())
+              this.props.addstate()
           }} 
         />
         <br /> 
         <br />
-        <h3>{store.getState()}</h3>
+        <h3>{this.props.xyz}</h3>
         <br />
         <hr />
         <input 
           type="button" 
           defaultValue="减少数量" 
           onClick={()=>{
-            store.dispatch(reducenum())
+            this.props.reducestate()
           }} 
         />
         <br/>
@@ -33,7 +35,7 @@ class App extends Component {
             type="button"
             defaultValue="异步操作减少数量"
             onClick={()=>{
-              store.dispatch(rmasync())
+              this.props.removeAsync()
             }}
         />
         <br/>
@@ -44,4 +46,18 @@ class App extends Component {
 
 
 
+//把state 映射到props中去   意思是吧redux的reducers返回的 新的状态 映射到react中的props中去
+//见名知义
+const mapStateToProps = state =>{
+          return {xyz:state}
+}
+// 把各种dispatch也变成props 让你能够通过props使用
+const mapDispatchToProps = {addstate,reducestate,removeAsync}
+
+
+//连接 mapStateToProps，mapDispatchToProps
+App = connect(mapStateToProps,mapDispatchToProps)(App)
+
 export default App;
+
+
